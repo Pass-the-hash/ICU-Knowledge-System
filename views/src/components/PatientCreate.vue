@@ -6,11 +6,11 @@
       lazy-validation
       @submit.prevent="submitForm"
     >
-      <v-card
-        ><v-toolbar flat color="white success--text ">
+      <v-card>
+        <v-toolbar flat color="white success--text ">
           <v-icon color="success">mdi-account-plus</v-icon>
           <v-toolbar-title class="font-weight-light">
-            Create Patient
+            Προσθήκη ασθενούς
           </v-toolbar-title>
         </v-toolbar>
         <v-card-text>
@@ -31,7 +31,7 @@
                 <v-text-field
                   v-model="patient.name"
                   :rules="nameRules"
-                  label="Name"
+                  label="Όνομα"
                   color="success"
                   text-color="black"
                 ></v-text-field>
@@ -40,7 +40,7 @@
                 <v-text-field
                   v-model="patient.surname"
                   :rules="surNameRules"
-                  label="Surname"
+                  label="Επώνυμο"
                   color="success"
                   text-color="black"
                 ></v-text-field>
@@ -51,9 +51,9 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="patient.age"
-                  label="Age"
+                  label="Ηλικία"
                   color="success"
-                  :rules="[(v) => !!v || 'Age is required']"
+                  :rules="[(v) => !!v || 'Πρέπει να είναι θετικός αριθμός', (v) => /^\d+$/.test(v) || 'Πρέπει να είναι θετικός αριθμός']"
                   text-color="black"
                   type="number"
                 ></v-text-field>
@@ -61,41 +61,116 @@
               <v-col cols="12" sm="6">
                 <v-checkbox
                   v-model="patient.hospitalized"
-                  label="Hospitalized"
+                  label="Νοσηλεύεται"
                   color="success"
                 ></v-checkbox>
+                <v-checkbox
+                    v-model="information.ventilation"
+                    label=Διασωληνωμένος
+                    color="success"
+                    @change="ventilated = !ventilated"
+                ></v-checkbox>
+              </v-col>
+              <v-col cols="12" sm="6">
+
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="12">
                 <v-select
-                  v-model="patient.sex"
+                  v-model="patient.gender"
                   :items="sex"
                   :rules="[(v) => !!v || 'Sex is required']"
-                  label="Sex"
+                  color="success"
+                  item-color="success"
+                  label="Φύλο"
                 ></v-select>
               </v-col>
               <v-col cols="12">
-                <v-select
-                  v-model="patient.conditions"
-                  :items="conditions"
+                <v-text-field
+                  v-model="patient.description"
                   :rules="[(v) => !!v || 'Item is required']"
-                  label="Conditions"
+                  color="success"
+                  label="Περιγραφή"
                   multiple
                   required
+                ></v-text-field>
+              </v-col>
+              <v-col
+                  cols="12"
+                  sm="6"
+                  v-if="ventilated === true"
+              >
+                <v-slider
+                    v-model="information.inflammation"
+                    color="success"
+                    label="Μόλυνση"
+                    min="1"
+                    max="3"
+                    thumb-label
+                ></v-slider>
+
+              </v-col>
+              <v-col
+                  cols="12"
+                  sm="6"
+                  v-if="ventilated === true"
+              >
+                <v-slider
+                    v-model="information.location"
+                    color="success"
+                    label="Σημείο μόλυνσης"
+                    min="1"
+                    max="7"
+                    thumb-label
+                ></v-slider>
+                <v-slider
+                    v-model="information.organism"
+                    color="success"
+                    label="Τύπος μικροοργανισμού"
+                    min="1"
+                    max="4"
+                    thumb-label
+                ></v-slider>
+
+              </v-col>
+              <v-col
+                  cols="12"
+                  sm="6"
+                  v-if="ventilated === true"
+              >
+                <v-select
+                    v-model="information.conditions"
+                    :items="conditions"
+                    color="green"
+                    item-color="green"
+                    label="Υποκείμενα νοσήματα"
+                    required
+                    multiple
+                    persistent-hint
                 ></v-select>
+                <v-text-field
+                    v-model.number="information.PCT"
+                    type="number"
+                    color="green"
+                    label="Αρχική προκαλσιτονίνη"
+                    required
+                    @keypress="isNumber($event)"
+                    min="0.05"
+                    max="252.5"
+                    :rules="val => (val || '') > 0 || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'"
+                ></v-text-field>
               </v-col>
             </v-row>
           </v-container>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
+        <v-card-actions class="justify-center">
           <v-btn color="success" type="submit"> Create </v-btn>
         </v-card-actions>
       </v-card>
     </v-form>
     <v-snackbar v-model="snackbar">
-      {{ response }}
+      {{ response.data }}
 
       <template v-slot:action="{ attrs }">
         <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
@@ -112,12 +187,15 @@ export default {
   name: "PatientCreate",
   data() {
     return {
-      patient: {},
-      response: null,
+      patient: {hospitalized: true},
+      information: {},
+      response: {},
       snackbar: false,
       valid: true,
-      conditions: ["ill", "cancer"],
-      sex: ["Male", "Female"],
+      ventilated: false,
+      conditions: ['Διαβήτης', 'Υπέρταση', 'Χρόνια αποφρακτική πνευμονοπάθεια', 'Στεφανιαία νόσος', 'Συμφορητική καρδιακή ανεπάρκεια', 'Xρόνια νεφρική νόσος με διάλυση',
+        'Xρόνια νεφρική νόσος χωρίς διάλυση', 'Kολπική μαρμαρυγή', 'Πνευμονικό εμβολή', 'Καρκίνος'],
+      sex: ["Άντρας", "Γυναίκα"],
       AMKARules: [
         (v) => !!v || "AMKA is required",
         (v) => /^\d+$/.test(v) || "AMKA must have only numbers",
@@ -125,11 +203,11 @@ export default {
       ],
       nameRules: [
         (v) => !!v || "Name is required",
-        (v) => /[a-zA-Z]+$/.test(v) || "Name must only contain letters",
+        (v) => /[a-zA-Zα-ωΑ-Ω]+$/.test(v) || "Name must only contain letters",
       ],
       surNameRules: [
         (v) => !!v || "Surname is required",
-        (v) => /[a-zA-Z]+$/.test(v) || "Name must only contain letters",
+        (v) => /[a-zA-Zα-ωΑ-Ω]+$/.test(v) || "Name must only contain letters",
       ],
     };
   },
@@ -138,15 +216,24 @@ export default {
       if (!this.$refs.form.validate()) return false;
       axios
         .post("http://localhost:3000/patients", this.patient)
-        .then((response) =>
-          this.$router.push({
-            name: "View patients",
-            params: { message: response.data },
-          })
-        );
-
+        .then((response) => (this.response = response));
+      this.information.AMKA = this.patient.AMKA
+      axios.post("http://localhost:3000/analysis", this.information)
+      this.$router.push({
+        name: "View patients",
+        params: { message: this.response.data },
+      })
       //
     },
+    isNumber(evt) {
+      evt = (evt) ? evt : window.event;
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    }
   },
 };
 </script>

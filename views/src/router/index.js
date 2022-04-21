@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import NotFound from '../components/NotFound'
-import Main from '../components/Main'
-import Patients from '../components/Patients'
+import NotFound from '../views/NotFound'
+import Main from '../views/Main'
+import Patients from '../views/Patients'
 import PatientCreate from '../components/PatientCreate'
-import Workers from '../components/Workers'
+import Workers from '../views/Workers'
+import General from "@/views/General";
+import Construction from "@/views/Construction";
+/*import Statistics from "@/views/Statistics";
+import Add from '@/components/Add'*/
 
 Vue.use(Router)
 
@@ -32,10 +36,21 @@ export default new Router({
       name: 'Employees profile page',
       component: Workers
     },
-    {
+    /*{
       path: '/analysis',
-      name: 'Useful analytics',
-      component: NotFound
+      name: 'Προβολή στοιχείων διασωληνωμένων ασθενών',
+      component: General
+    },*/
+    {
+      path: '/analysis/:AMKA',
+      name: 'statistics',
+      component: General,
+      props: true
+    },
+    {
+      path: '/construct',
+      component: Construction,
+      name: 'Under construction'
     },
     {
       path: '*',

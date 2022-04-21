@@ -1,0 +1,207 @@
+<template>
+  <v-app
+    :style="{background: $vuetify.theme.themes['dark'].background}"
+  >
+   <v-sheet
+    color="light green"
+    dark
+    tile
+   >
+  <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      bottom
+      temporary
+      dark
+  >
+    <v-list
+        nav
+        dense
+    >
+      <v-list-item-group
+          v-model="group"
+          active-class="deep-purple--text text--accent-4"
+      >
+        <v-list-item>
+          <v-list-item-title @click="choice = 'add'">Προσθήκη πληροφοριών</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item>
+          <v-list-item-title @click="choice = 'stats'">Προβολή στατιστικών</v-list-item-title>
+        </v-list-item>
+
+<!--        <v-list-item>
+          <v-list-item-title>Buzz</v-list-item-title>
+        </v-list-item>
+       -->
+        <v-list-item>
+          <v-list-item-title @click="choice = 'ml'">Προβλέψεις</v-list-item-title>
+        </v-list-item>
+
+      </v-list-item-group>
+    </v-list>
+  </v-navigation-drawer>
+
+
+  <v-app-bar-nav-icon  @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+
+  <v-toolbar-title><h1> Στατιστικά στοιχεία για {{this.patient.name}} {{this.patient.surname}}</h1></v-toolbar-title>
+
+
+  <!--      <v-spacer></v-spacer>
+
+        <v-btn icon>
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
+
+        <v-btn icon>
+          <v-icon>mdi-filter</v-icon>
+        </v-btn>
+
+        <v-btn icon>
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>-->
+
+
+</v-sheet>
+
+    <v-container
+        min-width="100%"
+        dark
+    >
+
+      <v-container>
+        <Add information="information" v-if="choice === 'add'"></Add>
+      </v-container>
+
+      <v-container v-if="choice === 'stats'">
+        <Statistics :patient=this.patient :information=this.information></Statistics>
+      </v-container>
+
+
+      <div class="main" v-if="this.information.BIL.length === 0 && choice === false">
+        <h1> Ο ασθενής νοσηλεύεται, αλλά δεν έχουν εισαχθεί δεδομένα. </h1>
+        <br>
+
+      </div>
+      <div class="button" v-if="this.information.BIL.length === 0 && choice === false">
+        <v-btn
+            text
+            dark
+            x-large
+            plain
+            @click="callAdd"
+        >
+          Προσθηκη δεδομενων
+        </v-btn>
+      </div>
+
+<!--        <h1>
+        <v-btn icon target="_blank" dark @click="choice === 'add'">
+          <v-icon>window</v-icon> Προσθήκη δεδομένων
+        </v-btn>
+        </h1>-->
+
+<!--      <v-toolbar
+          dark
+      >
+        <v-toolbar-title>
+
+        </v-toolbar-title>
+      </v-toolbar>-->
+      <v-container v-if="choice === 'ml'" class="text-center">
+        <h2> Μας συγχωρείτε, αλλά η δυνατότητα δεν είναι ακόμα διαθέσιμη! 😷</h2>
+        <Construction></Construction>
+      </v-container>
+    </v-container>
+
+</v-app>
+</template>
+
+<script>
+import axios from "axios"
+import Statistics from "@/components/Statistics";
+import Add from "@/components/Add";
+import Construction from "@/views/Construction";
+
+export default {
+  name: "General",
+  data: () => ({
+    footer: false,
+    network: null,
+    response: null,
+    chart: null,
+    patients: [],
+    expanded: [],
+    singleExpand: false,
+   /* headers: [
+      /*{
+        text: 'Dessert (100g serving)',
+        align: 'start',
+        sortable: false,
+        value: 'name',
+      },*!/
+      { text: "AMKA", value: "AMKA" },
+      { text: "Όνομα", value: "name" },
+      { text: "Επώνυμο", value: "surname" },
+      { text: "Ηλικία", value: "age" },
+      { text: "Πάθηση", value: "conditions" },
+      { text: "Φύλλο", value: "gender" },
+    ],*/
+    patient: null,
+    information: null,
+    choice: false,
+    drawer: false,
+    group: null,
+    msg: null
+  }),
+  components: {
+    Construction,
+    Add,
+    Statistics
+  },
+  methods: {
+    callAdd(){
+      this.choice = 'add'
+    },
+    async get() {
+      await axios
+          .get("http://localhost:3000/analysis/" + this.$route.params.AMKA)
+          .then((response) => (this.information = response.data))
+
+      await axios
+          .get("http://localhost:3000/patients/" + this.$route.params.AMKA)
+          .then((response) => (this.patient = response.data));
+      // this.updateChart()
+    },
+    update() {
+      axios
+        .patch("http://localhost:3000/analysis/25006")
+        .then((response) => (this.information = response.data));
+    },
+  },
+  mounted() {
+    this.get()
+  },
+
+}
+</script>
+
+<style scoped>
+h1, h2 {
+  color: azure;
+}
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10vh;
+}
+
+</style>

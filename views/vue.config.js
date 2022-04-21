@@ -1,7 +1,12 @@
 module.exports = {
   devServer: {
     port: 8000,
-    proxy: 'http://localhost:3000'
+    /*proxy: {
+      'Postman': {
+        target: 'https://loclhost:5555',
+        changeOrigin: true,
+      }
+    }*/
   },
   transpileDependencies: ["vuetify"],
 };
