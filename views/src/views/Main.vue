@@ -31,8 +31,15 @@
         </v-container>
       </v-carousel-item>
     </v-carousel>
+    <v-divider></v-divider>
+    <div class="h1">
+      <h1> Καλωσήρθατε στην πλατφόρμα για την παρακολούθηση διασωληνωμένων ασθενών!</h1>
+    </div>
+    <br>
+      <div class="h2">
+        <h2> Εδώ μπορείτε να κάνετε καταγραφή και παρακολούθηση της πορείας της υγείας των ασθενών, καθώς και να επεξεργαστείτε τα στοιχεία του λογαριασμού σας.</h2>
+      </div>
   </div>
-
 </template>
 
 <script>
@@ -45,9 +52,19 @@ export default {
       images: [
         { image: require("@/assets/images/1.jpg") },
         { image: require("@/assets/images/2.jpg") },
+        { image: require("@/assets/images/3.jpg") }
       ],
       info,
     };
   },
 };
 </script>
+
+<style scoped>
+.h1, .h2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10vh;
+}
+</style>
