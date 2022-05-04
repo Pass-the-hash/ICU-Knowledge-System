@@ -160,6 +160,14 @@
                     max="252.5"
                     :rules="val => (val || '') > 0 || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'"
                 ></v-text-field>
+                <v-slider
+                    v-model="information.GCS"
+                    color="success"
+                    label="Κλίμακα κώματος της Γλασκώβης"
+                    min="2"
+                    max="15"
+                    thumb-label
+                ></v-slider>
               </v-col>
             </v-row>
           </v-container>
@@ -187,6 +195,7 @@ export default {
   name: "PatientCreate",
   data() {
     return {
+      headers: {},
       patient: {hospitalized: true},
       information: {},
       response: {},
@@ -215,14 +224,15 @@ export default {
     submitForm() {
       if (!this.$refs.form.validate()) return false;
       axios
-        .post("http://localhost:3000/patients", this.patient)
+        .post("http://localhost:3000/patients", this.patient, this.headers)
         .then((response) => (this.response = response));
       this.information.AMKA = this.patient.AMKA
-      axios.post("http://localhost:3000/analysis", this.information)
+      axios.post("http://localhost:3000/analysis", this.information, this.headers)
       this.$router.push({
         name: "View patients",
         params: { message: this.response.data },
       })
+      this.snackbar = true
       //
     },
     isNumber(evt) {
@@ -233,7 +243,20 @@ export default {
       } else {
         return true;
       }
+    },
+    getUserDetails() {
+      // get token from localstorage
+      let token = localStorage.getItem("accessToken");
+      this.headers = {
+        headers:{
+          'Authorization': `Basic ${token}`
+        }
+      }
     }
   },
+  created() {
+    this.getUserDetails()
+    // this.get
+  }
 };
 </script>

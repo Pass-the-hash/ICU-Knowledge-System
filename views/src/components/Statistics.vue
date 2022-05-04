@@ -37,6 +37,7 @@
     >
       <apexchart :width="700" :options="options" :series="series"></apexchart>
     </v-card>
+
   </v-container>
 
 
@@ -47,7 +48,11 @@ export default {
   name: "Statistics",
   props: {
     patient: Object,
-    information: Object
+    information: {
+      type: Object,
+      required: true
+    },
+    // headers: {},
   },
   data: () =>({
     options: {

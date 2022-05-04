@@ -6,7 +6,7 @@ class Patient
   field :name, type: String
   field :surname, type: String
   field :age, type: Integer
+  field :gender, type: String
   field :description, type: String
   field :hospitalized, type: Boolean
-  field :gender, type: String
 end

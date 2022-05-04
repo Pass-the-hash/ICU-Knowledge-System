@@ -9,7 +9,7 @@
           </v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn color="success" href="/patients/create"
-            ><v-icon color="white">mdi-account-plus</v-icon> Προσθήκη
+            ><v-icon color="white">mdi-account-plus</v-icon> Προσθηκη
           </v-btn>
         </v-toolbar>
         <v-tabs
@@ -18,7 +18,7 @@
           color="success"
           grow
         >
-          <v-tab> Νοσηλευόμενοι </v-tab>
+          <v-tab> Νοσηλευομενοι </v-tab>
           <v-tab> Εχουν εξελθει </v-tab>
         </v-tabs>
         <v-tabs-items v-model="tab">
@@ -250,11 +250,14 @@
 
 <script>
 import axios from "axios";
+// import VueJwtDecode from "vue-jwt-decode"
 
 export default {
   name: "Patients",
   data() {
     return {
+      token: null,
+      axios_headers: {},
       footer: true,
       dialog: false,
       patient: null,
@@ -275,7 +278,7 @@ export default {
         { text: "Ενέργειες", value: "actions", sortable: false },
       ],
       conditions: ["ill", "cancer"],
-      gender: ["Male", "Female"],
+      gender: ["Άντρας", "Γυναίκα"],
       tab: null,
       AMKARules: [
         (v) => !!v || "AMKA is required",
@@ -310,7 +313,7 @@ export default {
   methods: {
       get() {
         axios
-           .get("http://localhost:3000/patients")
+           .get("http://localhost:3000/patients", this.axios_headers)
            .then((response) => (this.patients = response.data));
      },
     updatePatientDialog(item) {
@@ -319,13 +322,13 @@ export default {
     },
     deletePatient(id) {
       axios
-        .delete("http://localhost:3000/patients/" + id)
+        .delete("http://localhost:3000/patients/" + id, this.axios_headers)
         .then(() => this.$router.go(0));
     },
     updatePatient(id) {
       if (!this.$refs.form.validate()) return false;
       axios
-        .patch("http://localhost:3000/patients/" + id, this.patient)
+        .patch("http://localhost:3000/patients/" + id, this.patient, this.axios_headers)
         .then(() => this.$router.go(0));
       /*axios
           .patch("http://localhost:3000/analysis/" + this.patient.AMKA, this.information)
@@ -333,10 +336,22 @@ export default {
     },
     async show() {
       await axios
-          .get("http://localhost:3000/analysis/" + this.patient.AMKA)
+          .get("http://localhost:3000/analysis/" + this.patient.AMKA, this.axios_headers)
           .then((response) => (this.information = response.data));
       // this.updateChart()
-    }
+    },
+    getUserDetails() {
+      // get token from localstorage
+      this.token = localStorage.getItem("accessToken");
+      this.axios_headers = {
+        headers:{
+          'Authorization': `Basic ${this.token}`
+        }
+      }
+    },
   },
+  created() {
+    this.getUserDetails()
+  }
 };
 </script>

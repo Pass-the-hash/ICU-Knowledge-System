@@ -165,7 +165,7 @@ export default {
       BIL: null,
       CR: null,
       FiO2: null,
-      GCS: null,
+      // GCS: null,
       MAP: null,
       PCT: null,
       PLT: null,
@@ -186,19 +186,16 @@ export default {
     terms: false,
     // defaultForm,
   }),
-  /*props: {
-    information: Object
-  },*/
+  props: {
+    headers: {}
+  },
   methods: {
     submit () {
       this.snackbar = true
       console.log(this.information)
       axios
-        .patch("http://localhost:3000/analysis/" + this.$route.params.AMKA, this.information, {
-          headers: {
-            // remove headers
-          }
-        }).then(res => {
+        .patch("http://localhost:3000/analysis/" + this.$route.params.AMKA, this.information, this.headers)
+          .then(res => {
         console.log(res);
       }).catch(err => {
         console.log(err.response);

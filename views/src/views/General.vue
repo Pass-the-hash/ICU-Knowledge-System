@@ -71,7 +71,7 @@
     >
 
       <v-container>
-        <Add information="information" v-if="choice === 'add'"></Add>
+        <Add information="information" :headers=this.headers v-if="choice === 'add'"></Add>
       </v-container>
 
       <v-container v-if="choice === 'stats'">
@@ -110,8 +110,9 @@
         </v-toolbar-title>
       </v-toolbar>-->
       <v-container v-if="choice === 'ml'" class="text-center">
-        <h2> Μας συγχωρείτε, αλλά η δυνατότητα δεν είναι ακόμα διαθέσιμη! 😷</h2>
-        <Construction></Construction>
+<!--        <h2> Μας συγχωρείτε, αλλά η δυνατότητα δεν είναι ακόμα διαθέσιμη! 😷</h2>
+        <Construction></Construction>-->
+        <Predictions :patient="this.patient" :headers="this.headers" ></Predictions>
       </v-container>
     </v-container>
 
@@ -122,7 +123,8 @@
 import axios from "axios"
 import Statistics from "@/components/Statistics";
 import Add from "@/components/Add";
-import Construction from "@/views/Construction";
+// import Construction from "@/views/Construction";
+import Predictions from "@/components/Predictions";
 
 export default {
   name: "General",
@@ -134,53 +136,56 @@ export default {
     patients: [],
     expanded: [],
     singleExpand: false,
-   /* headers: [
-      /*{
-        text: 'Dessert (100g serving)',
-        align: 'start',
-        sortable: false,
-        value: 'name',
-      },*!/
-      { text: "AMKA", value: "AMKA" },
-      { text: "Όνομα", value: "name" },
-      { text: "Επώνυμο", value: "surname" },
-      { text: "Ηλικία", value: "age" },
-      { text: "Πάθηση", value: "conditions" },
-      { text: "Φύλλο", value: "gender" },
-    ],*/
     patient: null,
     information: null,
     choice: false,
     drawer: false,
     group: null,
-    msg: null
+    msg: null,
+    headers: {},
+    token: null,
   }),
   components: {
-    Construction,
+    Predictions,
+    // Construction,
     Add,
-    Statistics
+    Statistics,
   },
   methods: {
     callAdd(){
       this.choice = 'add'
     },
-    async get() {
-      await axios
-          .get("http://localhost:3000/analysis/" + this.$route.params.AMKA)
+     get() {
+       axios
+          .get("http://localhost:3000/analysis/" + this.$route.params.AMKA, this.headers)
           .then((response) => (this.information = response.data))
 
-      await axios
-          .get("http://localhost:3000/patients/" + this.$route.params.AMKA)
+       axios
+          .get("http://localhost:3000/patients/" + this.$route.params.AMKA, this.headers)
           .then((response) => (this.patient = response.data));
       // this.updateChart()
     },
-    update() {
+    /*update() {
       axios
-        .patch("http://localhost:3000/analysis/25006")
+        .patch("http://localhost:3000/analysis/25006", )
         .then((response) => (this.information = response.data));
-    },
+    },*/
+    getUserDetails() {
+      // get token from localstorage
+      this.token = localStorage.getItem("accessToken");
+      // console.log(this.token)
+      this.headers = {
+        headers:{
+          'Authorization': `Basic ${this.token}`
+        }
+      }
+    }
+  },
+  created() {
+    this.getUserDetails()
   },
   mounted() {
+    console.log(this.headers)
     this.get()
   },
 

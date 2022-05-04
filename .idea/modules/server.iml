@@ -594,6 +594,25 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
+      <library name="jwt (vbundled(2.3.0)) [path][gem]" type="rubylib">
+        <properties>
+          <option name="version" value="4" />
+        </properties>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/jwt-2.3.0/lib" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/jwt-2.3.0/.github" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/jwt-2.3.0/lib" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/jwt-2.3.0/.github" />
+        </SOURCES>
+        <excluded>
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/jwt-2.3.0/.github" />
+        </excluded>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="listen (vbundled(3.7.1)) [path][gem]" type="rubylib">
         <properties>
           <option name="version" value="4" />
