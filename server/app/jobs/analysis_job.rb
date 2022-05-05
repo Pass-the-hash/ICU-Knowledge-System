@@ -54,7 +54,7 @@ class AnalysisJob < ApplicationJob
     hidden_neurons_number = ((inputs.first.size + output.first.size) ** 0.5).round + 1
     train = RubyFann::TrainData.new(inputs: inputs, desired_outputs: output)
     fann = RubyFann::Standard.new(num_inputs: 25, hidden_neurons: [8], num_outputs: 2)
-    fann.train_on_data(train, 10000, 100, 0.01) # 1000 max_epochs, 10 errors between reports and 0.1 desired MSE (mean-squared-error)
+    fann.train_on_data(train, 50000, 100, 0.01) # 1000 max_epochs, 10 errors between reports and 0.1 desired MSE (mean-squared-error)
     fann.save('app/assets/training')
   end
 end
