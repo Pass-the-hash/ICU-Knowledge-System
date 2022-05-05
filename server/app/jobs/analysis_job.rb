@@ -19,7 +19,6 @@ class AnalysisJob < ApplicationJob
       output.push [ row[29], row[30]]
     end
 
-    #row[28], row[31]]
     set = (13...20).to_a
     # set.push 2
 
@@ -35,22 +34,27 @@ class AnalysisJob < ApplicationJob
       end
     end
 
+=begin
     output.each do |i|
       i.map!(&:to_i)
     end
-
+=end
+    output.each do |x|
+      x.map!(&:to_f)
+      x.map! do |i|
+        i = i - 1.0
+      end
+    end
     # inputs.each do |i|
     #   puts i.inspect
     #   puts i[2].class
     # end
     # output.each { |i| puts i.inspect }
 
-    # puts output.inspect
-
     hidden_neurons_number = ((inputs.first.size + output.first.size) ** 0.5).round + 1
     train = RubyFann::TrainData.new(inputs: inputs, desired_outputs: output)
     fann = RubyFann::Standard.new(num_inputs: 25, hidden_neurons: [8], num_outputs: 2)
-    fann.train_on_data(train, 100000, 10000, 0.01) # 1000 max_epochs, 10 errors between reports and 0.1 desired MSE (mean-squared-error)
+    fann.train_on_data(train, 10000, 100, 0.01) # 1000 max_epochs, 10 errors between reports and 0.1 desired MSE (mean-squared-error)
     fann.save('app/assets/training')
   end
 end

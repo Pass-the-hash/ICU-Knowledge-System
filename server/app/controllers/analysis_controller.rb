@@ -49,7 +49,7 @@ class AnalysisController < ApplicationController
     @patient = Patient.find_by AMKA: params[:analysis_id]
     input = data_filter @data, @patient
     puts input.inspect
-    prediction = Network.outcomes input
+    prediction = filter_results Network.outcomes input
     render json: prediction, status: 200
   end
 
@@ -75,26 +75,6 @@ class AnalysisController < ApplicationController
   end
 
   def data_filter(data, patient)
-=begin
-    array[0] = patient.age
-    array[1] = patient.gender
-    array[2] = data.PCT
-    conditions_filter(data.conditions).each_with_index do |value, i|
-      array[i+3] = value
-    end
-    array[13] = data.PaO2[-1]
-    array[14] = data.FiO2[-1]
-    array[15] = data.PLT[-1]
-    array[16] = data.BIL[-1]
-    array[17] = data.GCS[-1]
-    array[18] = data.MAP[-1]
-    array[19] = data.CR[-1]
-    array[20] = data.UoP[-1]
-    array[21] = data.ventilation
-    array[22] = data.location
-    array[23] = data.inflammation
-    array[24] = data.organism
-=end
     array = []
     if patient.gender == 'Άντρας'
       gender = 1
@@ -127,4 +107,11 @@ class AnalysisController < ApplicationController
     conditions
   end
 
+  def filter_results(results)
+    results[0] = 1.0 - results[0]
+    results.map! do |x|
+      x = x * 100
+      x = x.round(2)
+    end
+  end
 end
