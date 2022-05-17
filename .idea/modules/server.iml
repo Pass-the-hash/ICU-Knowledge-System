@@ -26,7 +26,7 @@
       <excludeFolder url="file://$MODULE_DIR$/../../server/public/system" />
       <excludeFolder url="file://$MODULE_DIR$/../../server/components" />
     </content>
-    <orderEntry type="jdk" jdkName="RVM: ruby-2.7.2" jdkType="RUBY_SDK" />
+    <orderEntry type="jdk" jdkName="ruby-2.7.4-p191" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="actioncable (vbundled(6.1.4.6)) [path][gem]" type="rubylib">
@@ -231,24 +231,27 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="bcrypt (vbundled(3.1.16)) [path][gem]" type="rubylib">
+      <library name="bcrypt (vbundled(3.1.17)) [path][gem]" type="rubylib">
         <properties>
           <option name="version" value="4" />
         </properties>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.16/ext" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.16/lib" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.16/spec" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.17/ext" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.17/lib" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.17/spec" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.17/.github" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.16/ext" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.16/lib" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.16/spec" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.17/ext" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.17/lib" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.17/spec" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.17/.github" />
         </SOURCES>
         <excluded>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.16/ext" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.16/spec" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.17/ext" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.17/spec" />
+          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/bcrypt-3.1.17/.github" />
         </excluded>
       </library>
     </orderEntry>
@@ -433,24 +436,6 @@
         <JAVADOC />
         <SOURCES>
           <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/crass-1.0.6/lib" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="devise (vbundled(4.8.1)) [path][gem]" type="rubylib">
-        <properties>
-          <option name="version" value="4" />
-        </properties>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/devise-4.8.1/app" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/devise-4.8.1/lib" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/devise-4.8.1/config" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/devise-4.8.1/app" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/devise-4.8.1/lib" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/devise-4.8.1/config" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -904,28 +889,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="orm_adapter (vbundled(0.5.0)) [path][gem]" type="rubylib">
-        <properties>
-          <option name="version" value="4" />
-        </properties>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/orm_adapter-0.5.0/lib" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/orm_adapter-0.5.0/spec" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/orm_adapter-0.5.0/gemfiles" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/orm_adapter-0.5.0/lib" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/orm_adapter-0.5.0/spec" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/orm_adapter-0.5.0/gemfiles" />
-        </SOURCES>
-        <excluded>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/orm_adapter-0.5.0/spec" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/orm_adapter-0.5.0/gemfiles" />
-        </excluded>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="public_suffix (vbundled(4.0.6)) [path][gem]" type="rubylib">
         <properties>
           <option name="version" value="4" />
@@ -1256,20 +1219,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="responders (vbundled(3.0.1)) [path][gem]" type="rubylib">
-        <properties>
-          <option name="version" value="4" />
-        </properties>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/responders-3.0.1/lib" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/responders-3.0.1/lib" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="rexml (vbundled(3.2.5)) [path][gem]" type="rubylib">
         <properties>
           <option name="version" value="4" />
@@ -1545,25 +1494,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="warden (vbundled(1.2.9)) [path][gem]" type="rubylib">
-        <properties>
-          <option name="version" value="4" />
-        </properties>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/warden-1.2.9/lib" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/warden-1.2.9/.github" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/warden-1.2.9/lib" />
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/warden-1.2.9/.github" />
-        </SOURCES>
-        <excluded>
-          <root url="file://$MODULE_DIR$/../../server/vendor/bundle/ruby/2.7.0/gems/warden-1.2.9/.github" />
-        </excluded>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="web-console (vbundled(4.2.0)) [path][gem]" type="rubylib">
         <properties>
           <option name="version" value="4" />
@@ -1693,7 +1623,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" scope="PROVIDED" name="bundler (v2.1.4, RVM: ruby-2.7.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v2.1.4, ruby-2.7.4-p191) [gem]" level="application" />
   </component>
   <component name="RModuleSettingsStorage">
     <LOAD_PATH number="0" />
@@ -1702,84 +1632,76 @@
   <component name="RailsGeneratorsCache">
     <option name="generators">
       <list>
-        <option value="active_record:application_record" />
-        <option value="active_record:devise" />
         <option value="active_record:migration" />
         <option value="active_record:model" />
-        <option value="application_record" />
-        <option value="assets" />
-        <option value="benchmark" />
-        <option value="channel" />
+        <option value="active_record:observer" />
+        <option value="active_record:session_migration" />
         <option value="controller" />
-        <option value="devise" />
-        <option value="devise:controllers" />
-        <option value="devise:install" />
-        <option value="devise:views" />
+        <option value="erb:controller" />
+        <option value="erb:mailer" />
+        <option value="erb:scaffold" />
         <option value="generator" />
         <option value="helper" />
         <option value="integration_test" />
-        <option value="jbuilder" />
-        <option value="job" />
-        <option value="mailbox" />
         <option value="mailer" />
+        <option value="metal" />
         <option value="migration" />
         <option value="model" />
-        <option value="mongoid:config" />
-        <option value="mongoid:devise" />
-        <option value="rack_profiler:install" />
+        <option value="model_subclass" />
+        <option value="observer" />
+        <option value="performance_test" />
+        <option value="plugin" />
         <option value="resource" />
-        <option value="responders:install" />
-        <option value="responders_controller" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
-        <option value="system_test" />
-        <option value="task" />
-        <option value="test_unit:channel" />
-        <option value="test_unit:generator" />
-        <option value="test_unit:install" />
-        <option value="test_unit:mailbox" />
+        <option value="session_migration" />
+        <option value="stylesheets" />
+        <option value="test_unit:controller" />
+        <option value="test_unit:helper" />
+        <option value="test_unit:integration" />
+        <option value="test_unit:mailer" />
+        <option value="test_unit:model" />
+        <option value="test_unit:observer" />
+        <option value="test_unit:performance" />
         <option value="test_unit:plugin" />
+        <option value="test_unit:scaffold" />
       </list>
     </option>
     <option name="myGenerators">
       <list>
-        <option value="active_record:application_record" />
-        <option value="active_record:devise" />
         <option value="active_record:migration" />
         <option value="active_record:model" />
-        <option value="application_record" />
-        <option value="assets" />
-        <option value="benchmark" />
-        <option value="channel" />
+        <option value="active_record:observer" />
+        <option value="active_record:session_migration" />
         <option value="controller" />
-        <option value="devise" />
-        <option value="devise:controllers" />
-        <option value="devise:install" />
-        <option value="devise:views" />
+        <option value="erb:controller" />
+        <option value="erb:mailer" />
+        <option value="erb:scaffold" />
         <option value="generator" />
         <option value="helper" />
         <option value="integration_test" />
-        <option value="jbuilder" />
-        <option value="job" />
-        <option value="mailbox" />
         <option value="mailer" />
+        <option value="metal" />
         <option value="migration" />
         <option value="model" />
-        <option value="mongoid:config" />
-        <option value="mongoid:devise" />
-        <option value="rack_profiler:install" />
+        <option value="model_subclass" />
+        <option value="observer" />
+        <option value="performance_test" />
+        <option value="plugin" />
         <option value="resource" />
-        <option value="responders:install" />
-        <option value="responders_controller" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
-        <option value="system_test" />
-        <option value="task" />
-        <option value="test_unit:channel" />
-        <option value="test_unit:generator" />
-        <option value="test_unit:install" />
-        <option value="test_unit:mailbox" />
+        <option value="session_migration" />
+        <option value="stylesheets" />
+        <option value="test_unit:controller" />
+        <option value="test_unit:helper" />
+        <option value="test_unit:integration" />
+        <option value="test_unit:mailer" />
+        <option value="test_unit:model" />
+        <option value="test_unit:observer" />
+        <option value="test_unit:performance" />
         <option value="test_unit:plugin" />
+        <option value="test_unit:scaffold" />
       </list>
     </option>
   </component>

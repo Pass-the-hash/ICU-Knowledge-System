@@ -81,10 +81,17 @@ export default {
             shadeTo: 'light',
             shadeIntensity: 0.65
         },
-      }
+      },
       /*xaxis: {
-        categories: []
-      },*/
+        labels: {
+          datetimeFormatter: {
+            year: 'yyyy',
+            month: 'MMM \'yy',
+            day: 'dd MMM',
+            hour: 'HH:mm'
+          }
+        }
+      }*/
     },
     series: [],
 
@@ -128,9 +135,13 @@ export default {
         series: this.series,
 
         xaxis: {
-          tickAmount: 12,
-          type: 'category',
+          type: 'datetime',
           categories: this.information.dates,
+        },
+        tooltip: {
+          x: {
+            format: 'dd MMM yyyy'
+          }
         },
         yaxis: {
           max: 800

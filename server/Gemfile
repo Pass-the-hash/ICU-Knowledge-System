@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.2'
+ruby '2.7.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1', '>= 6.1.4.6'
@@ -18,7 +18,7 @@ gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
-gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.17'
 
 # Use JWT authentication
 gem 'jwt'
@@ -27,7 +27,7 @@ gem 'jwt'
 gem 'mongoid', '~> 7.0.5'
 
 # Devise authentication system
-gem 'devise'
+# gem 'devise'
 
 # FANN for machine learning analysis
 gem 'ruby-fann', '~> 1.3'

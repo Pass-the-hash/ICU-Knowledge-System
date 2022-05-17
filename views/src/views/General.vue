@@ -42,11 +42,13 @@
     </v-list>
   </v-navigation-drawer>
 
-
+<v-toolbar
+    color="success"
+>
   <v-app-bar-nav-icon  @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-  <v-toolbar-title><h1> Στατιστικά στοιχεία για {{this.patient.name}} {{this.patient.surname}}</h1></v-toolbar-title>
-
+  <v-toolbar-title>Στατιστικά στοιχεία για {{this.patient.name}} {{this.patient.surname}}</v-toolbar-title>
+</v-toolbar>
 
   <!--      <v-spacer></v-spacer>
 
