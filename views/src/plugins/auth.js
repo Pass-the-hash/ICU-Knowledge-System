@@ -5,68 +5,52 @@ import router from "@/router";
 
 Vue.use(Vuex)
 
+const token = localStorage.getItem('accessToken');
+const user = localStorage.getItem('user');
+
+const initialState = token
+  ? { loggedIn: true , user:user,loginError:null }
+  : { loggedIn: false , user: null,loginError:null };
+
 const store = new Vuex.Store({
-  state: {
-    loggingIn: false,
-    loginError: null,
-    accessToken: null,
-    user: null
-  },
+  namespaced: true,
+  state: initialState,
   mutations: {
-    loginStart: state => state.loggingIn = true,
-    loginStop: (state, errorMessage) => {
-      state.loggingIn = false;
-      state.loginError = errorMessage;
-      // state.loginSuccessful = !errorMessage;
+    loginSuccess(state, id) {
+      state.loggedIn = true;
+      state.user = id;
+      state.loginError=null
     },
-    updateAccessToken: (state, accessToken) => {
-      state.accessToken = accessToken
-    },
-    setUser: (state, user) => {
-      state.user = user
+    loginFailure(state) {
+      state.loggedIn = false;
+      state.loginError = "Invalid username or password !"
+      state.user = null;
+      console.log(this.state)
     },
     LogOut(state){
       localStorage.clear()
+      state.loggedIn= false
       state.user = null
-      state.accessToken = null
     }
   },
   getters: {
-    isAuthenticated: state => !!state.accessToken,
-    isUser: state => !!state.user,
-    Error: state => !!state.loginError
+    isAuthenticated: (state) => state.loggedIn,
   },
+
   actions: {
     doLogin({ commit }, loginData) {
-      commit('loginStart')
       axios.post('http://localhost:3000/auth/login', {
         ...loginData
       })
       .then((response) => {
         localStorage.setItem('accessToken', response.data.token)
         localStorage.setItem('user', response.data.id)
-        commit('loginStop', null)
-        // commit('keepUser', response.data.id)
-        commit('updateAccessToken', response.data.token)
-        commit('setUser', response.data.id)
+        commit('loginSuccess', response.data.id);
         router.push('/').then()
       })
-      // .then(() => this.$router.push('/'))
-      .catch(error => {
-        if (error.response) {
-          if (error.response.status === '401')
-            commit('loginStop', 'Λάθος κωδικός')
-          else if (error.response.status === '404')
-            commit('loginStop', 'Ο χρήστης δεν υπάρχει')
-          else {
-            commit('loginStop', error.response.data.error)
-            commit('updateAccessToken', null)
-          }
-
-        } else {
-          console.log('Error', error.message)
-        }
-
+      .catch(() => {
+          commit('loginFailure');
+          console.log(this.state.loggedIn)
       })
     },
     fetchAccessToken({ commit }) {
