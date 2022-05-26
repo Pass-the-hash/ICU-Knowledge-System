@@ -8,7 +8,7 @@
             Ασθενείς
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn color="success" href="/patients/create"
+          <v-btn color="success" to="/patients/create"
             ><v-icon color="white">mdi-account-plus</v-icon> Προσθηκη
           </v-btn>
         </v-toolbar>
@@ -33,12 +33,16 @@
             ></v-text-field>
             <v-data-table
               :items="hospitalized_patients"
-              :headers="headers"
+              :headers="hospitalizedHeaders"
               :items-per-page="5"
               :search="search"
+              item-key="AMKA"
+              show-expand
+              class="elevation-1"
             >
-              <template v-slot:[`item.actions`]="{ item }">
-                <v-btn
+              <template v-slot:expanded-item="{ headers, item }">
+                <td :colspan="headers.length">
+                  <v-btn
                   class="ma-2"
                   color="success"
                   @click="deletePatient(item._id.$oid)"
@@ -66,7 +70,9 @@
                   <v-icon> mdi-account-injury </v-icon>
                   πληροφοριες
                 </v-btn>
+                </td>
               </template>
+
             </v-data-table>
           </v-tab-item>
           <v-tab-item>
@@ -80,7 +86,7 @@
             ></v-text-field>
             <v-data-table
               :items="recovered_patients"
-              :headers="headers"
+              :headers="recoveredHeaders"
               :items-per-page="5"
               :search="search"
             >
@@ -151,7 +157,7 @@
               </v-row>
 
               <v-row>
-                <v-col cols="12" sm="6">
+                <v-col cols="12">
                   <v-text-field
                     v-model="patient.age"
                     label="Age"
@@ -161,13 +167,6 @@
                     type="number"
                   ></v-text-field>
                 </v-col>
-<!--                <v-col cols="12" sm="6">
-                  <v-checkbox
-                    v-model="patient.hospitalized"
-                    label="Hospitalized"
-                    color="success"
-                  ></v-checkbox>
-                </v-col>-->
               </v-row>
               <v-row>
                 <v-col cols="12">
@@ -176,6 +175,9 @@
                     :items="gender"
                     :rules="[(v) => !!v || 'Gender is required']"
                     label="Φύλλο"
+                    color="success"
+                    item-color="success"
+                    text-color="black"
                   ></v-select>
                 </v-col>
                 <v-col cols="12">
@@ -187,43 +189,6 @@
                     multiple
                     required
                   ></v-text-field>
-                </v-col>
-                <v-col
-                    cols="12"
-                    sm="6"
-                    v-if="ventilated === true"
-                >
-
-                  <v-slider
-                      v-model="information.Inflammation"
-                      color="success"
-                      label="Μόλυνση"
-                      min="1"
-                      max="3"
-                      thumb-label
-                  ></v-slider>
-                </v-col>
-                <v-col
-                    cols="12"
-                    sm="6"
-                    v-if="ventilated === true"
-                >
-                  <v-slider
-                      v-model="information.Location"
-                      color="success"
-                      label="Σημείο μόλυνσης"
-                      min="1"
-                      max="7"
-                      thumb-label
-                  ></v-slider>
-                  <v-slider
-                      v-model="information.Organism"
-                      color="success"
-                      label="Τύπος μικροοργανισμού"
-                      min="1"
-                      max="4"
-                      thumb-label
-                  ></v-slider>
                 </v-col>
               </v-row>
             </v-container>
@@ -254,11 +219,16 @@ import axios from "axios";
 
 export default {
   name: "Patients",
+  props: {
+    message: String
+  },
   data() {
     return {
-      token: null,
-      axios_headers: {},
-      footer: true,
+      axios_headers: {
+        headers:{
+          'Authorization': `Basic ${localStorage.getItem('accessToken')}`
+        }
+      },
       dialog: false,
       patient: null,
       information: {},
@@ -267,7 +237,17 @@ export default {
       response: null,
       snackbar: false,
       search: null,
-      headers: [
+      hospitalizedHeaders: [
+        {text: "AMKA", value: "AMKA" },
+        { text: "Όνομα", value: "name" },
+        { text: "Επώνυμο", value: "surname" },
+        { text: "Ηλικία", value: "age" },
+        { text: "Περιγραφή", value: "description" },
+        // { text: "Hospitalized", value: "hospitalized" },
+        { text: "Φύλο", value: "gender" },
+        { text: '', value: 'data-table-expand' },
+      ],
+      recoveredHeaders: [
         {text: "AMKA", value: "AMKA" },
         { text: "Όνομα", value: "name" },
         { text: "Επώνυμο", value: "surname" },
@@ -283,7 +263,7 @@ export default {
       AMKARules: [
         (v) => !!v || "AMKA is required",
         (v) => /^\d+$/.test(v) || "AMKA must have only numbers",
-        (v) => (v && v.length == 11) || "AMKA must have 11 numbers",
+        (v) => (v && v.length === 11) || "AMKA must have 11 numbers",
       ],
       nameRules: [
         (v) => !!v || "Name is required",
@@ -305,10 +285,11 @@ export default {
   },
   mounted() {
     this.get();
-    if (this.$route.params.message) {
-      this.response = this.$route.params.message;
-      this.snackbar = true;
+    if(this.message){
+      this.snackbar=true;
+      this.response=this.message;
     }
+
   },
   methods: {
       get() {
@@ -323,35 +304,33 @@ export default {
     deletePatient(id) {
       axios
         .delete("http://localhost:3000/patients/" + id, this.axios_headers)
-        .then(() => this.$router.go(0));
+        .then((response) =>
+          {
+          const patient = this.patients.find((pt) => pt._id.$oid == id)
+          let index = this.patients.findIndex((pt) => pt._id.$oid == id);
+          patient.hospitalized=false
+          this.$set(this.patients, index, patient);
+          this.response = response.data;
+          this.snackbar = true;
+          });
     },
     updatePatient(id) {
       if (!this.$refs.form.validate()) return false;
       axios
         .patch("http://localhost:3000/patients/" + id, this.patient, this.axios_headers)
-        .then(() => this.$router.go(0));
-      /*axios
-          .patch("http://localhost:3000/analysis/" + this.patient.AMKA, this.information)
-          .then(() => this.$router.go(0));*/
+        .then((res) => {
+          let index = this.patients.findIndex((r) => r.id == res.id);
+          this.$set(this.patients, index, res.config.data);
+          this.response = res.data;
+          this.snackbar = true;
+          this.dialog=false;
+        })
     },
     async show() {
       await axios
           .get("http://localhost:3000/analysis/" + this.patient.AMKA, this.axios_headers)
           .then((response) => (this.information = response.data));
-      // this.updateChart()
-    },
-    getUserDetails() {
-      // get token from localstorage
-      this.token = localStorage.getItem("accessToken");
-      this.axios_headers = {
-        headers:{
-          'Authorization': `Basic ${this.token}`
-        }
-      }
     },
   },
-  created() {
-    this.getUserDetails()
-  }
 };
 </script>

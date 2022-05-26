@@ -46,7 +46,6 @@
                 ></v-text-field>
               </v-col>
             </v-row>
-
             <v-row>
               <v-col cols="12" sm="6">
                 <v-text-field
@@ -64,15 +63,6 @@
                   label="Νοσηλεύεται"
                   color="success"
                 ></v-checkbox>
-                <v-checkbox
-                    v-model="information.ventilation"
-                    label=Διασωληνωμένος
-                    color="success"
-                    @change="ventilated = !ventilated"
-                ></v-checkbox>
-              </v-col>
-              <v-col cols="12" sm="6">
-
               </v-col>
             </v-row>
             <v-row>
@@ -86,6 +76,8 @@
                   label="Φύλο"
                 ></v-select>
               </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="12">
                 <v-text-field
                   v-model="patient.description"
@@ -96,80 +88,115 @@
                   required
                 ></v-text-field>
               </v-col>
-              <v-col
-                  cols="12"
-                  sm="6"
-                  v-if="ventilated === true"
-              >
-                <v-slider
-                    v-model="information.inflammation"
-                    color="success"
-                    label="Μόλυνση"
-                    min="1"
-                    max="3"
-                    thumb-label
-                ></v-slider>
-
-              </v-col>
-              <v-col
-                  cols="12"
-                  sm="6"
-                  v-if="ventilated === true"
-              >
-                <v-slider
-                    v-model="information.location"
-                    color="success"
-                    label="Σημείο μόλυνσης"
-                    min="1"
-                    max="7"
-                    thumb-label
-                ></v-slider>
-                <v-slider
-                    v-model="information.organism"
-                    color="success"
-                    label="Τύπος μικροοργανισμού"
-                    min="1"
-                    max="4"
-                    thumb-label
-                ></v-slider>
-
-              </v-col>
-              <v-col
-                  cols="12"
-                  sm="6"
-                  v-if="ventilated === true"
-              >
-                <v-select
-                    v-model="information.conditions"
-                    :items="conditions"
-                    color="green"
-                    item-color="green"
-                    label="Υποκείμενα νοσήματα"
-                    required
-                    multiple
-                    persistent-hint
-                ></v-select>
-                <v-text-field
-                    v-model.number="information.PCT"
-                    type="number"
-                    color="green"
-                    label="Αρχική προκαλσιτονίνη"
-                    required
-                    @keypress="isNumber($event)"
-                    min="0.05"
-                    max="252.5"
-                    :rules="val => (val || '') > 0 || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'"
-                ></v-text-field>
-                <v-slider
-                    v-model="information.GCS"
-                    color="success"
-                    label="Κλίμακα κώματος της Γλασκώβης"
-                    min="2"
-                    max="15"
-                    thumb-label
-                ></v-slider>
-              </v-col>
             </v-row>
+            <div v-if="patient.hospitalized === true">
+              <v-row>
+                <v-col
+                    cols="12"
+                    sm="6"
+
+                >
+                  <v-slider
+                      v-model="information.inflammation"
+                      color="success"
+                      label="Μόλυνση"
+                      min="1"
+                      max="3"
+                      thumb-label
+                  ></v-slider>
+
+                </v-col>
+                <v-col
+                    cols="12"
+                    sm="6"
+
+                >
+                  <v-slider
+                      v-model="information.location"
+                      color="success"
+                      label="Σημείο μόλυνσης"
+                      min="1"
+                      max="7"
+                      thumb-label
+                  ></v-slider>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col
+                    cols="12"
+                    sm="12"
+
+                >
+                  <v-slider
+                      v-model="information.organism"
+                      color="success"
+                      label="Τύπος μικροοργανισμού"
+                      min="1"
+                      max="4"
+                      thumb-label
+                  ></v-slider>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                    cols="12"
+                    sm="6"
+
+                >
+                  <v-select
+                      v-model="information.conditions"
+                      :items="conditions"
+                      color="green"
+                      item-color="green"
+                      label="Υποκείμενα νοσήματα"
+                      required
+                      multiple
+                      persistent-hint
+                  ></v-select>
+                </v-col>
+                <v-col
+                    cols="12"
+                    sm="6"
+
+                >
+                  <v-text-field
+                      v-model.number="information.PCT"
+                      type="number"
+                      color="green"
+                      label="Αρχική προκαλσιτονίνη"
+                      required
+                      @keypress="isNumber($event)"
+                      min="0.05"
+                      max="252.5"
+                      :rules="val => (val || '') > 0 || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                    cols="12"
+                >
+                  <v-slider
+                      v-model="information.GCS"
+                      color="success"
+                      label="Κλίμακα κώματος της Γλασκώβης"
+                      min="2"
+                      max="15"
+                      thumb-label
+                  ></v-slider>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12" sm="12">
+                <v-checkbox
+                    v-model="information.ventilation"
+                    label=Διασωληνωμένος
+                    color="success"
+                ></v-checkbox>
+              </v-col>
+              </v-row>
+            </div>
           </v-container>
         </v-card-text>
         <v-card-actions class="justify-center">
@@ -195,13 +222,15 @@ export default {
   name: "PatientCreate",
   data() {
     return {
-      headers: {},
+      headers: {headers:{
+          'Authorization': `Basic ${localStorage.getItem("accessToken")}`
+        }
+      },
       patient: {hospitalized: true},
       information: {},
       response: {},
       snackbar: false,
       valid: true,
-      ventilated: false,
       conditions: ['Διαβήτης', 'Υπέρταση', 'Χρόνια αποφρακτική πνευμονοπάθεια', 'Στεφανιαία νόσος', 'Συμφορητική καρδιακή ανεπάρκεια', 'Xρόνια νεφρική νόσος με διάλυση',
         'Xρόνια νεφρική νόσος χωρίς διάλυση', 'Kολπική μαρμαρυγή', 'Πνευμονικό εμβολή', 'Καρκίνος'],
       sex: ["Άντρας", "Γυναίκα"],
@@ -223,17 +252,36 @@ export default {
   methods: {
     submitForm() {
       if (!this.$refs.form.validate()) return false;
-      axios
-        .post("http://localhost:3000/patients", this.patient, this.headers)
-        .then((response) => (this.response = response));
-      this.information.AMKA = this.patient.AMKA
-      axios.post("http://localhost:3000/analysis", this.information, this.headers)
-      this.$router.push({
-        name: "View patients",
-        params: { message: this.response.data },
-      })
-      this.snackbar = true
-      //
+        axios
+          .post("http://localhost:3000/patients", this.patient, this.headers)
+          .then(() => {
+            if (this.information){
+              this.information.AMKA = this.patient.AMKA
+              axios.post("http://localhost:3000/analysis", this.information, this.headers)
+              .then(() => {
+                this.$router.push({
+                  name: "View patients",
+                  params: { message: "Patient created !" },
+                })
+                this.snackbar = true
+              })
+              .catch((err)=>{
+                this.$router.push({
+                  name: "View patients",
+                  params: { message: err },
+                })
+                this.snackbar = true
+              });
+            }
+          })
+          .catch((err)=>{
+              this.$router.push({
+                name: "View patients",
+                params: { message: err },
+              })
+              this.snackbar = true
+            });
+
     },
     isNumber(evt) {
       evt = (evt) ? evt : window.event;
@@ -244,19 +292,6 @@ export default {
         return true;
       }
     },
-    getUserDetails() {
-      // get token from localstorage
-      let token = localStorage.getItem("accessToken");
-      this.headers = {
-        headers:{
-          'Authorization': `Basic ${token}`
-        }
-      }
-    }
   },
-  created() {
-    this.getUserDetails()
-    // this.get
-  }
 };
 </script>

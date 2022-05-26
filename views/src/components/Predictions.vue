@@ -1,22 +1,15 @@
 <template>
-  <v-container
-        color="grey darken-2"
-    >
-
-    <h1> Ενδείξεις υποσυστήματος τεχνητής νοημοσύνης:</h1>
-    <v-row>
-      <v-col>
+  <div>
+    <h1 align="center" class="title  pt-10"> Ενδείξεις υποσυστήματος τεχνητής νοημοσύνης:</h1>
+    <v-row class="pb-15">
+      <v-col cols="12" >
         <apexchart width="500" :options="mortality" :series="series1"></apexchart>
       </v-col>
-      <v-col>
-        <apexchart width="500" :options="vasopressors" :series="series2"></apexchart>
+      <v-col cols="12" >
+          <apexchart width="500" :options="vasopressors" :series="series2"></apexchart>
       </v-col>
-
     </v-row>
-    <!-- <apexchart width="500" :options="options" :series="series"></apexchart>
-      <apexchart width="500" :options="options" :series="series"></apexchart>-->
-
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -35,16 +28,14 @@ export default {
     mortality: {
       chart: {
         id: 'vuechart-example',
-        foreColor: 'azure',
-        height: 350,
+        foreColor: 'black',
         type: 'radialBar',
       },
     },
     vasopressors: {
       chart: {
         id: 'vuechart-example2',
-        foreColor: 'azure',
-        height: 350,
+        foreColor: 'black',
         type: 'radialBar',
       },
     },
@@ -68,7 +59,7 @@ export default {
       this.series1 = [this.response[0]]
       this.series2 = [this.response[1]]
 
-      let color
+      let color;
       if (this.series1[0] < 30.0) color = '#de1037'
       else if (this.series1[0] < 60.0) color = '#f1b626'
       else color = '#38b726'
@@ -99,17 +90,9 @@ export default {
         labels: ['Πρόταση χρήσης αγγειοσυσταλτικών'],
       }
     }
-      // In the same way, update the series option
   },
   mounted() {
     this.getPredictions()
-    // this.updateChart()
   },
 }
 </script>
-
-<style scoped>
-h1{
-  color: azure;
-}
-</style>

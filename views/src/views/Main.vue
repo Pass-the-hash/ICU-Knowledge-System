@@ -1,5 +1,13 @@
 <template>
   <div>
+    <v-card>
+      <v-card-text>
+        <h2 align="center" justify="center" class="headline "> Καλωσήρθατε στην πλατφόρμα για την παρακολούθηση διασωληνωμένων ασθενών!</h2>
+        <br>
+        <h3 align="center" class="font-weight-light "> Εδώ μπορείτε να κάνετε καταγραφή και παρακολούθηση της πορείας της υγείας των ασθενών, καθώς και να επεξεργαστείτε τα στοιχεία του λογαριασμού σας.</h3>
+      </v-card-text>
+    </v-card>
+    <br>
     <v-carousel
       cycle
       height="500"
@@ -8,38 +16,68 @@
       :show-arrows="false"
     >
       <v-carousel-item v-for="(item, i) in images" :key="i" :src="item.image">
-        <v-container class="fill-height" align="center" justify="center">
-          <v-row>
-            <v-col cols="12" sm="4">
-              <v-btn href="/worker" tile x-large color="success">
-                <v-icon>mdi-shield-account</v-icon>
-                Προφιλ &raquo;
-              </v-btn>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-btn href="/patients" tile x-large color="success">
-                <v-icon>mdi-bed</v-icon>
-                Ασθενεις &raquo;
-              </v-btn>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-btn href="/construct" tile x-large color="success">
-                <v-icon>mdi-help</v-icon>
-                Σχετικα &raquo;
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
       </v-carousel-item>
     </v-carousel>
-    <v-divider></v-divider>
-    <div class="h1">
-      <h1> Καλωσήρθατε στην πλατφόρμα για την παρακολούθηση διασωληνωμένων ασθενών!</h1>
-    </div>
     <br>
-      <div class="h2">
-        <h2> Εδώ μπορείτε να κάνετε καταγραφή και παρακολούθηση της πορείας της υγείας των ασθενών, καθώς και να επεξεργαστείτε τα στοιχεία του λογαριασμού σας.</h2>
-      </div>
+    <v-row>
+      <v-col cols="12" sm="6">
+        <v-card
+          class="mx-auto"
+        >
+          <v-img
+            src="@/assets/images/3.jpg"
+            height="200px"
+          ></v-img>
+
+          <v-card-title>
+            Προβολή Αθενών
+          </v-card-title>
+
+          <v-card-subtitle>
+            Δείτε τους καταχωρημένους ασθενείς τα στατιτστικά και τις αναλύσεις για αυτούς.
+          </v-card-subtitle>
+
+          <v-card-actions>
+            <v-btn
+              color="success"
+              text
+              to="/patients"
+            >
+              προβολη
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <v-card
+          class="mx-auto"
+        >
+          <v-img
+            src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+            height="200px"
+          ></v-img>
+
+          <v-card-title>
+            Προβολή Προφίλ
+          </v-card-title>
+
+          <v-card-subtitle>
+            Δείτε το προφίλ σας και επεξεργαστείτε το.
+            <br><br>
+          </v-card-subtitle>
+
+          <v-card-actions>
+            <v-btn
+              color="success"
+              text
+              to="/worker"
+            >
+              προβολη
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

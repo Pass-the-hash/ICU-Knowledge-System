@@ -4,29 +4,28 @@
     dark
     tile
   >
-    <v-toolbar height="70px" dense v-if="this.navbar">
-      <v-toolbar-title><v-btn plain text href="/" color="white"> ICU-Manager</v-btn></v-toolbar-title>
+    <v-toolbar height="70px" dense>
+      <v-toolbar-title><v-btn plain text to="/" color="white"> ICU-Manager</v-btn></v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-menu open-on-hover offset-y transition="slide-y-transition" bottom>
+      <v-menu v-if="isAuthenticated" open-on-hover offset-y transition="slide-y-transition" bottom>
         <template v-slot:activator="{ on }">
           <v-btn dark text v-on="on">
-<!--            <v-icon> mdi-arrow-down-drop-circle </v-icon>-->
             Μενου
           </v-btn>
         </template>
         <v-list>
-          <v-list-item href="/">
+          <v-list-item to="/">
             <v-icon>mdi-home</v-icon>
             <v-list-item-title>Αρχική</v-list-item-title>
           </v-list-item>
-          <v-list-item href="/patients">
+          <v-list-item to="/patients">
             <v-icon>mdi-bed</v-icon>
 
             <v-list-item-title>Ασθενείς</v-list-item-title>
           </v-list-item>
 
-          <v-list-item href="/worker">
+          <v-list-item to="/worker">
             <v-icon>mdi-shield-account</v-icon>
             <v-list-item-title>Ο λογαριασμός μου</v-list-item-title>
           </v-list-item>
@@ -39,8 +38,10 @@
       </v-menu>
     </v-toolbar>
     </v-card>
+    <v-container class="spacing-playground py-12">
     <router-view> </router-view>
-    <div class="footer" v-if="this.footer">
+    </v-container>
+    <div class="footer">
 
         {{ new Date().getFullYear() }} — <strong>ICU-Manager</strong>
     </div>
@@ -48,37 +49,22 @@
 </template>
 
 <script>
-import {mapActions} from "vuex"
 
 export default {
   name: "App",
   data: () => ({
-    footer: true,
-    navbar: true,
   }),
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated
+    }
+  },
   methods: {
-    ...mapActions([
-      'fetchAccessToken'
-    ]),
     async logout() {
       await this.$store.commit('LogOut')
       await this.$router.push('/login')
     },
-     login() {
-      return this.$route.path === '/login'
-    },
-     analysis() {
-      return this.$route.name === 'statistics'
-    }
   },
-  created() {
-    this.fetchAccessToken();
-  },
-  mounted() {
-    this.navbar = !this.login()
-    this.footer = !this.analysis() && !this.login()
-
-  }
 };
 </script>
 

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import store from "@/plugins/auth"
+import store from "@/plugins/auth"
 import NotFound from '../views/NotFound'
 import Main from '../views/Main'
 import Patients from '../views/Patients'
@@ -25,7 +25,7 @@ const router = new Router({
       path: '/patients',
       name: 'View patients',
       component: Patients,
-      // props: true,
+      props: true,
       meta: { requiresAuth: true }
     },
     {
@@ -73,7 +73,9 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  let isAuthenticated = !!localStorage.getItem('accessToken');
+
+  let isAuthenticated = store.state.loggedIn
+  console.log(isAuthenticated)
   if (!isAuthenticated && to.matched.some(record => record.meta.requiresAuth)) {
     next('/login')
   } else {

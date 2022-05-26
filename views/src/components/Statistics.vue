@@ -1,10 +1,7 @@
 <template>
 
-  <v-container
-      color="grey darken-2"
-      height="800"
-  >
-    <v-simple-table dark>
+  <div >
+    <v-simple-table>
     <template v-slot:default>
       <thead>
       <tr>
@@ -27,20 +24,14 @@
       </tbody>
     </template>
   </v-simple-table>
-
-    <v-card
-        class="pa-2"
-        outlined
-        tile
-        dark
-        height="900"
+    <v-container
+      class="d-flex mb-6"
+      tile
+      align="left"
     >
-      <apexchart :width="700" :options="options" :series="series"></apexchart>
-    </v-card>
-
-  </v-container>
-
-
+        <apexchart class="py-10" width="600" height="500" :options="options" :series="series" ></apexchart>
+    </v-container>
+    </div>
 </template>
 
 <script>
@@ -52,18 +43,15 @@ export default {
       type: Object,
       required: true
     },
-    // headers: {},
   },
   data: () =>({
     options: {
       chart: {
         id: 'vuechart-example',
-        foreColor: '#ebf4f7',
-        height: 90,
-        type: 'scatter',
-        fill: {
-          opacity: 0.8
-        },
+        foreColor: 'black',
+        height: 300,
+        // type: 'line',
+
         zoom: {
           type: 'xy'
         }
@@ -77,8 +65,7 @@ export default {
         palette: 'palette4',
         monochrome: {
             enabled: false,
-            color: '#255aee',
-            shadeTo: 'light',
+            color: 'black',
             shadeIntensity: 0.65
         },
       },
@@ -96,44 +83,40 @@ export default {
     series: [],
 
   }),
-  /*watch:{
-
-  },*/
   methods: {
-
     updateChart() {
-
-
      // const colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0']
       this.series = [
         {
+          type: 'line',
           name: 'Πίεση παρεχόμενου οξυγόνου',
           data: this.information.PaO2
         },
         {
+          type: 'line',
           name: 'Ποσοστό παρεχόμενου οξυγόνου',
           data: this.information.FiO2
         },
         {
+          type: 'line',
           name: 'Αιμοπετάλια',
           data: this.information.PLT
         },
         {
+          type: 'line',
           name: 'Κρεατινίνη',
           data: this.information.CR
         },
         {
+          type: 'line',
           name: 'Χολυρεθρίνη',
           data: this.information.BIL
         }
       ]
-
       // Make sure to update the whole options config and not just a single property to allow the Vue watch catch the change.
       this.options = {
         //colors: [colors[Math.floor(Math.random()*colors.length)]],
-
         series: this.series,
-
         xaxis: {
           type: 'datetime',
           categories: this.information.dates,
@@ -144,7 +127,7 @@ export default {
           }
         },
         yaxis: {
-          max: 800
+          max: 400
         },
         responsive: [{
           breakpoint: 480,

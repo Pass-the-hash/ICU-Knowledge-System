@@ -1,9 +1,8 @@
 <template>
-<v-container
-    class="align-content-space-around"
->
+
+
   <v-card
-      class="d-flex justify-space-around mb-6"
+      max-width="500" class="mx-auto my-14"
   >
   <v-form
       ref="form"
@@ -17,8 +16,12 @@
           Είσοδος στην πλατφόρμα
         </v-toolbar-title>
       </v-toolbar>
+      <v-divider></v-divider>
       <v-card-text>
         <v-container>
+          <v-alert type="error" v-if="loginError">
+            {{loginError}}
+          </v-alert>
           <v-row>
             <v-col cols="12">
               <v-text-field
@@ -51,11 +54,7 @@
       </v-card-actions>
 
   </v-form>
-    <v-alert type="error" v-if="showError">
-      {{msg}}
-    </v-alert>
   </v-card>
-  </v-container>
 </template>
 
 <script>
@@ -71,43 +70,25 @@ export default {
         username: "",
         password: "",
       },
-      showError: false,
       show1: false,
-      msg: "",
     };
   },
   computed: {
     ...mapState([
-      'loggingIn',
       'loginError',
-      'accessToken'
     ])
   },
   methods: {
-    //...mapActions(["LogIn"]),
     ...mapActions([
       'doLogin'
     ]),
-    async submit() {
+    submit() {
       this.doLogin({
         username: this.user.username,
         password: this.user.password
       })
-      /*axios
-          .post("http://localhost:3000/auth/login", this.user)
-          .then((response) => localStorage.setItem("user", response.data.token))
-          .then(() => this.$router.push('/'))*/
-
     },
   },
-  watch: {
-    error: (() => {
-      if (this.$store.getters('Error')) {
-        this.showError = true
-        this.msg = this.$store.state.loginError
-      } else this.showError = false
-    })
-  }
 };
 </script>
 
