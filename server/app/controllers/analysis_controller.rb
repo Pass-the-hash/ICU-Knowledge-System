@@ -3,16 +3,19 @@ class AnalysisController < ApplicationController
 
   Network = NeuralNetwork.instance
 
+=begin
   def index
     # @network = self.load_network
-    puts Network.inspect
+    # puts Network.inspect
+    # puts Network.is_a? String
     if Network.is_a? String
-      render json: Network, status: 422
+      render json: Network, status: 500
     else
       @patients = Patient.where hospitalized: true
       render json: { msg: "Εκκίνηση συστήματος μηχανικής μάθησης", patients: @patients  }, status: 200
     end
   end
+=end
 
   def show
     @data = Information.find_by AMKA: params[:id]
@@ -45,12 +48,18 @@ class AnalysisController < ApplicationController
 
   def calculate
     # @network = NeuralNetwork.instance
+    puts Network.inspect
     @data = Information.find_by AMKA: params[:analysis_id]
     @patient = Patient.find_by AMKA: params[:analysis_id]
     input = data_filter @data, @patient
     puts input.inspect
-    prediction = filter_results Network.outcomes input
-    render json: prediction, status: 200
+    output = Network.outcomes input
+    if output.is_a? Exception
+      render json: "Σφάλμα συστήματος τεχνητής νοημοσύνης: #{output}", status: 500
+    else
+      prediction = filter_results output
+      render json: prediction, status: 200
+    end
   end
 
   private
@@ -88,7 +97,7 @@ class AnalysisController < ApplicationController
     end
     conditions = conditions_filter(data.conditions)
     array.push patient.age.to_i, gender, data.PCT.to_f, conditions[0], conditions[1], conditions[2], conditions[3], conditions[4], conditions[5], conditions[6],
-               conditions[7], conditions[8], conditions[9], data.PaO2[-1].to_f, data.FiO2[-1].to_f, data.PLT[-1].to_f, data.BIL[-1].to_f, data.GCS[-1].to_f, data.MAP[-1].to_f,
+               conditions[7], conditions[8], conditions[9], data.PaO2[-1].to_f, data.FiO2[-1].to_f, data.PLT[-1].to_f, data.BIL[-1].to_f, data.GCS, data.MAP[-1].to_f,
                data.CR[-1].to_f, data.UoP[-1].to_i,   ventilation,  data.location.to_i, data.inflammation.to_i, data.organism.to_i
 
   end

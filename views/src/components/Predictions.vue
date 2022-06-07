@@ -1,9 +1,13 @@
 <template>
   <div>
     <h1 align="center" class="title  pt-10"> Ενδείξεις υποσυστήματος τεχνητής νοημοσύνης:</h1>
+    <v-alert class="py-12" type="error" v-if="error">
+      {{error}}
+    </v-alert>
     <v-row class="pb-15">
       <v-col cols="12" >
         <apexchart width="500" :options="mortality" :series="series1"></apexchart>
+
       </v-col>
       <v-col cols="12" >
           <apexchart width="500" :options="vasopressors" :series="series2"></apexchart>
@@ -42,6 +46,7 @@ export default {
     series1: [],
     series2: [],
     response: [],
+    error: null,
   }),
   methods: {
     getPredictions() {
@@ -53,6 +58,9 @@ export default {
         .then(() => {
           this.updateChart()
           console.log(this.response)
+        })
+        .catch((error) => {
+          this.error = error.response.data
         })
     },
     updateChart() {

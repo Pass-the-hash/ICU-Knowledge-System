@@ -10,11 +10,17 @@ class NeuralNetwork
       @instance = RubyFann::Standard.new(filename: @path)
       # @network.get_total_connections
     else
-      @instance = "Δε βρέθηκε ρύθμιση δικτύου"
+      @error = AnalysisJob.perform_now
+      puts @error.inspect
+      # return error if error
+      @instance = RubyFann::Standard.new(filename: @path)
     end
   end
 
   def outcomes(data)
+    puts @error.inspect
+    # puts @error.is_a? Exception
+    return @error if @error.is_a? Exception
     result = @instance.run data
     puts result.inspect
 =begin
