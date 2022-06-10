@@ -22,7 +22,7 @@
                   :rules="AMKARules"
                   color="success"
                   text-color="black"
-                  label="AMKA"
+                  label="AMKA*"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -31,7 +31,7 @@
                 <v-text-field
                   v-model="patient.name"
                   :rules="nameRules"
-                  label="Όνομα"
+                  label="Όνομα*"
                   color="success"
                   text-color="black"
                 ></v-text-field>
@@ -40,7 +40,7 @@
                 <v-text-field
                   v-model="patient.surname"
                   :rules="surNameRules"
-                  label="Επώνυμο"
+                  label="Επώνυμο*"
                   color="success"
                   text-color="black"
                 ></v-text-field>
@@ -50,7 +50,7 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="patient.age"
-                  label="Ηλικία"
+                  label="Ηλικία*"
                   color="success"
                   :rules="[(v) => !!v || 'Πρέπει να είναι θετικός αριθμός', (v) => /^\d+$/.test(v) || 'Πρέπει να είναι θετικός αριθμός']"
                   text-color="black"
@@ -70,10 +70,10 @@
                 <v-select
                   v-model="patient.gender"
                   :items="sex"
-                  :rules="[(v) => !!v || 'Sex is required']"
+                  :rules="[(v) => !!v || 'Απαιτείται το φύλο']"
                   color="success"
                   item-color="success"
-                  label="Φύλο"
+                  label="Φύλο*"
                 ></v-select>
               </v-col>
             </v-row>
@@ -81,9 +81,9 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="patient.description"
-                  :rules="[(v) => !!v || 'Item is required']"
+                  :rules="[(v) => !!v || 'Απαιτείται περιγραφή']"
                   color="success"
-                  label="Περιγραφή"
+                  label="Περιγραφή*"
                   multiple
                   required
                 ></v-text-field>
@@ -164,12 +164,12 @@
                       v-model.number="information.PCT"
                       type="number"
                       color="green"
-                      label="Αρχική προκαλσιτονίνη"
+                      label="Αρχική προκαλσιτονίνη*"
                       required
                       @keypress="isNumber($event)"
                       min="0.05"
                       max="252.5"
-                      :rules="val => (val || '') > 0 || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'"
+                      :rules="[(v) => !!v, (v) => (v && v >= 0.05 && v <= 252.5)  || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων']"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -208,7 +208,7 @@
       {{ response.data }}
 
       <template v-slot:action="{ attrs }">
-        <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
+        <v-btn color="success" text v-bind="attrs" @click="snackbar = false">
           Close
         </v-btn>
       </template>
@@ -235,17 +235,17 @@ export default {
         'Xρόνια νεφρική νόσος χωρίς διάλυση', 'Kολπική μαρμαρυγή', 'Πνευμονικό εμβολή', 'Καρκίνος'],
       sex: ["Άντρας", "Γυναίκα"],
       AMKARules: [
-        (v) => !!v || "AMKA is required",
-        (v) => /^\d+$/.test(v) || "AMKA must have only numbers",
-        (v) => (v && v.length == 11) || "AMKA must have 11 numbers",
+        (v) => !!v || "Απαιτείται AMKA",
+        (v) => /^\d+$/.test(v) || "Το ΑΜΚΑ πρέπει να είναι 11 αριθμοί",
+        (v) => (v && v.length == 11) || "Το ΑΜΚΑ πρέπει να είναι 11 αριθμοί",
       ],
       nameRules: [
-        (v) => !!v || "Name is required",
-        (v) => /[a-zA-Zα-ωΑ-Ω]+$/.test(v) || "Name must only contain letters",
+        (v) => !!v || "Απαιτείται όνομα",
+        (v) => /[a-zA-Zα-ωΑ-Ω]+$/.test(v) || "Το όνομα μπορεί να περιέχει μόνο γράμματα",
       ],
       surNameRules: [
-        (v) => !!v || "Surname is required",
-        (v) => /[a-zA-Zα-ωΑ-Ω]+$/.test(v) || "Name must only contain letters",
+        (v) => !!v || "Απαιτείται επώνυμο",
+        (v) => /[a-zA-Zα-ωΑ-Ω]+$/.test(v) || "Το επώνυμο μπορεί να περιέχει μόνο γράμματα",
       ],
     };
   },
@@ -261,7 +261,7 @@ export default {
               .then(() => {
                 this.$router.push({
                   name: "View patients",
-                  params: { message: "Patient created !" },
+                  params: { message: "Προστέθηκε ασθενής " },
                 })
                 this.snackbar = true
               })

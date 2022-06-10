@@ -5,7 +5,7 @@
     </v-alert>
   <v-card v-else>
     <v-toolbar flat >
-      <v-toolbar-title>Στατιστικά στοιχεία {{patient.name}} {{patient.surname}}</v-toolbar-title>
+      <v-toolbar-title>Στατιστικά στοιχεία για {{patient.name}} {{patient.surname}}: </v-toolbar-title>
       <v-spacer></v-spacer>
       <template v-slot:extension>
         <v-tabs fixed-tabs v-model="tabs" color="success">
