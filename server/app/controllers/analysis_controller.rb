@@ -40,7 +40,7 @@ class AnalysisController < ApplicationController
       @data.add_to_set MAP: data_params[:MAP] unless data_params[:MAP].nil?
       @data.add_to_set CR: data_params[:CR] unless data_params[:CR].nil?
       @data.add_to_set UoP: data_params[:UoP] unless data_params[:UoP].nil?
-      @data.add_to_set dates: Time.now.strftime("%Y-%m-%dT%H:%M:%S")
+      @data.add_to_set dates: Time.now.strftime("%Y-%m-%d %H:%M:%S")
       @data.update PCT: data_params[:PCT] unless data_params[:PCT].nil?
 
       render json: 'Τα δεδομένα ανανεώθηκαν', status: 200
