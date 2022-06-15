@@ -24,7 +24,7 @@ class AnalysisController < ApplicationController
 
   def create
     @data = Information.create! first_params
-    @data.add_to_set dates: Time.now.strftime("%Y-%m-%dT%H:%M:%S")
+    @data.add_to_set dates: Time.now.strftime("%Y-%m-%d %H:%M:%S")
     puts @data.inspect
     render json: 'Ξεκίνησε καταγραφή δεδομένων', status: 200
   end
