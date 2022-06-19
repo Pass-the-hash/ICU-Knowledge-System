@@ -1,9 +1,10 @@
 <template>
-    <v-alert class="py-12" type="error" v-if="!information">
+    <v-alert class="py-12" type="error" v-if="error">
       Δεν έχουν καταχωρηθεί οι κατάλληλες πληροφορίες για τον
       συγκεκριμένο ασθενή !
     </v-alert>
   <v-card v-else>
+
     <v-toolbar flat >
       <v-toolbar-title>Στατιστικά στοιχεία για {{patient.name}} {{patient.surname}}: </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -12,15 +13,15 @@
           <v-tabs-slider></v-tabs-slider>
           <v-tab href="#statistics" class="success--text">
             <v-icon left> mdi-account-details </v-icon>
-            Προβολή στατιστικών
+            Προβολη στατιστικων
           </v-tab>
           <v-tab href="#add" class="success--text">
             <v-icon left> mdi-account-plus </v-icon>
-            Προσθήκη πληροφοριών
+            Προσθηκη πληροφοριων
           </v-tab>
           <v-tab href="#predictions" class="success--text">
             <v-icon left> mdi-access-point </v-icon>
-            Προβλέψεις
+            Προβλεψεις
           </v-tab>
         </v-tabs>
       </template>
@@ -30,7 +31,7 @@
     <v-tab-item value="add">
         <v-card flat>
           <v-card-text>
-            <Add :headers="headers"></Add>
+            <Add :headers="headers" :dialog="dialog"></Add>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -67,6 +68,9 @@ import Predictions from "@/components/Predictions";
 
 export default {
   name: "General",
+  props: {
+    dialog: Boolean
+  },
   data: () => ({
     tabs: null,
     patient: null,
@@ -76,6 +80,8 @@ export default {
         Authorization: `Basic ${localStorage.getItem("accessToken")}`,
       },
     },
+    error: false,
+    // dialog: false,
   }),
   components: {
     Predictions,
@@ -92,7 +98,8 @@ export default {
         .then((response) => {
           this.information = response.data;
           console.log(this.information);
-        });
+        })
+        .catch(() => this.error = true);
 
       axios
         .get(
@@ -101,6 +108,11 @@ export default {
         )
         .then((response) => (this.patient = response.data));
     },
+  },
+  computed: {
+    enableDialog() {
+      return this.$route.params.dialog
+    }
   },
   mounted() {
     this.get();

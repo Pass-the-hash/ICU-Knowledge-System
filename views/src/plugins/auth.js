@@ -31,7 +31,7 @@ const store = new Vuex.Store({
       localStorage.clear()
       state.loggedIn= false
       state.user = null
-    }
+    },
   },
   getters: {
     isAuthenticated: (state) => state.loggedIn,

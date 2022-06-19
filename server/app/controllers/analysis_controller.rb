@@ -24,7 +24,7 @@ class AnalysisController < ApplicationController
 
   def create
     @data = Information.create! first_params
-    @data.add_to_set dates: Time.now.strftime("%Y-%m-%dT%H:%M:%S")
+    @data.add_to_set dates: Time.now.strftime("%Y-%m-%d %H:%M:%S")
     puts @data.inspect
     render json: 'Ξεκίνησε καταγραφή δεδομένων', status: 200
   end
@@ -32,16 +32,16 @@ class AnalysisController < ApplicationController
   def update
       @data = Information.find_by AMKA: params[:id]
 
-      @data.add_to_set PaO2: data_params[:PaO2] unless data_params[:PaO2].nil?
-      @data.add_to_set FiO2: data_params[:FiO2] unless data_params[:FiO2].nil?
-      @data.add_to_set PLT: data_params[:PLT] unless data_params[:PLT].nil?
-      @data.add_to_set BIL: data_params[:BIL] unless data_params[:BIL].nil?
+      @data.push PaO2: data_params[:PaO2] unless data_params[:PaO2].nil?
+      @data.push FiO2: data_params[:FiO2] unless data_params[:FiO2].nil?
+      @data.push PLT: data_params[:PLT] unless data_params[:PLT].nil?
+      @data.push BIL: data_params[:BIL] unless data_params[:BIL].nil?
       #@data.add_to_set GCS: data_params[:GCS] unless data_params[:GCS].nil?
-      @data.add_to_set MAP: data_params[:MAP] unless data_params[:MAP].nil?
-      @data.add_to_set CR: data_params[:CR] unless data_params[:CR].nil?
-      @data.add_to_set UoP: data_params[:UoP] unless data_params[:UoP].nil?
-      @data.add_to_set dates: Time.now.strftime("%Y-%m-%dT%H:%M:%S")
-      @data.update PCT: data_params[:PCT] unless data_params[:PCT].nil?
+      @data.push MAP: data_params[:MAP] unless data_params[:MAP].nil?
+      @data.push CR: data_params[:CR] unless data_params[:CR].nil?
+      @data.push UoP: data_params[:UoP] unless data_params[:UoP].nil?
+      @data.push dates: Time.now.strftime("%Y-%m-%d %H:%M:%S")
+      # @data.update PCT: data_params[:PCT] unless data_params[:PCT].nil?
 
       render json: 'Τα δεδομένα ανανεώθηκαν', status: 200
   end

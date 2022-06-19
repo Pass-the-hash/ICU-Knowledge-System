@@ -18,7 +18,7 @@ class NeuralNetwork
   end
 
   def outcomes(data)
-    puts @error.inspect
+    # puts @error.inspect
     # puts @error.is_a? Exception
     return @error if @error.is_a? Exception
     result = @instance.run data

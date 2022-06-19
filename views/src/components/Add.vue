@@ -2,11 +2,39 @@
   <v-form
       ref="form"
       @submit.prevent="submit"
-
   >
     <v-card
         flex
     >
+      <v-dialog
+          v-model="dialog"
+          width="500"
+      >
+
+        <v-card>
+          <v-card-title class="text-h5 lighten-2 justify-center">
+            Τα στοιχεία προστέθηκαν!
+          </v-card-title>
+
+<!--          <v-card-text>
+            Τα στοιχεία προστέθηκαν.
+          </v-card-text>-->
+
+<!--          <v-divider></v-divider>-->
+
+          <v-card-actions class="justify-center">
+<!--            <v-spacer></v-spacer>-->
+            <v-btn
+                color="success"
+                text
+                @click="disposeDialog"
+            >
+              Ολοκληρωση
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
       <v-toolbar flat color="success--text ">
           <v-icon color="success">mdi-account-details</v-icon>
           <v-toolbar-title class="font-weight-light">
@@ -30,7 +58,7 @@
               min="3"
               max="726"
               @keypress="isNumber($event)"
-              :rules="rules.numeric"
+              :rules="rules.PLT"
           ></v-text-field>
           <v-text-field
               v-model.number="information.FiO2"
@@ -41,7 +69,7 @@
               max="262"
 
               required
-              :rules="rules.numeric"
+              :rules="rules.FiO2"
           ></v-text-field>
           <v-text-field
               v-model.number="information.MAP"
@@ -53,7 +81,7 @@
               min="9"
               max="138"
               @keypress="isNumber($event)"
-              :rules="rules.numeric"
+              :rules="rules.MAP"
           ></v-text-field>
         </v-col>
         <v-col
@@ -69,7 +97,7 @@
               max="15.1"
 
               required
-              :rules="rules.numeric"
+              :rules="rules.CR"
           ></v-text-field>
           <v-text-field
               v-model.number="information.BIL"
@@ -81,7 +109,7 @@
               @keypress="isNumber($event)"
               min="0.1"
               max="22.5"
-              :rules="rules.numeric"
+              :rules="rules.BIL"
           ></v-text-field>
           <v-text-field
               v-model.number="information.PaO2"
@@ -92,7 +120,7 @@
               max="595"
 
               required
-              :rules="rules.numeric"
+              :rules="rules.PaO2"
           ></v-text-field>
         </v-col>
         <v-col
@@ -137,17 +165,24 @@ import axios from "axios";
 export default {
   name: "Add",
   props: {
-    headers:Object
+    headers:Object,
   },
   data: () => ({
     information:{},
     rules: {
-      rules: [val => (val || '').length > 0 || 'Απαιτούμενο πεδίο'],
-      numeric: [
+      rules: [v => (v || '').length > 0 || 'Απαιτούμενο πεδίο'],
+      /*numeric: [
           // val => (val || '').length > 0 || 'Απαιτούμενο πεδίο',
-          val => (val || '') > 0 || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'
-      ]
+          v => (v || '') > 0 || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'
+      ],*/
+      CR: [(v) => !!v, (v) => (v && v >= 0.15 && v <= 15.1)  || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'],
+      BIL: [(v) => !!v, (v) => (v && v >= 0.1 && v <= 22.5)  || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'],
+      PLT: [(v) => !!v, (v) => (v && v >= 3 && v <= 726)  || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'],
+      MAP: [(v) => !!v, (v) => (v && v >= 9 && v <= 138)  || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'],
+      FiO2: [(v) => !!v, (v) => (v && v >= 21 && v <= 262)  || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'],
+      PaO2: [(v) => !!v, (v) => (v && v >= 2 && v <= 595)  || 'Απαιτείται θετικός δεκαδικός εντός των προβλεπόμενων ορίων'],
     },
+    dialog: false,
   }),
   methods: {
     submit () {
@@ -157,7 +192,10 @@ export default {
         console.log(res);
       }).catch(err => {
         console.log(err.response);
-      }).then(() => this.$router.go(0));
+      }).then(() => {
+        this.dialog = true
+        // this.$store.commit('EnableDialog')
+      });
           //.then(() => this.$router.go(0));
     },
     isNumber(evt) {
@@ -168,6 +206,10 @@ export default {
       } else {
         return true;
       }
+    },
+    disposeDialog() {
+      this.dialog = false
+      this.$router.go(0)
     }
   },
 }

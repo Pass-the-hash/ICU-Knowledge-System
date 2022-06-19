@@ -50,7 +50,7 @@ export default {
         id: 'vuechart-example',
         foreColor: 'black',
         height: 300,
-        // type: 'line',
+        type: 'line',
 
         zoom: {
           type: 'xy'
@@ -60,57 +60,37 @@ export default {
         text: 'Στατιστικά στοιχεία ασθενή',
         align: 'left'
       },
-      theme: {
-        mode: 'light',
-        palette: 'palette4',
-        monochrome: {
-            enabled: false,
-            color: 'black',
-            shadeIntensity: 0.65
-        },
-      },
-      /*xaxis: {
-        labels: {
-          datetimeFormatter: {
-            year: 'yyyy',
-            month: 'MMM \'yy',
-            day: 'dd MMM',
-            hour: 'HH:mm'
-          }
-        }
-      }*/
     },
     series: [],
 
   }),
   methods: {
     updateChart() {
-     // const colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0']
+      const colors = ['#4ecdc4',	'#c7f464',	'#546E7A',	'#FF9800', '#3f51b5',  '#fd6a6a']
       this.series = [
         {
-          type: 'line',
-          name: 'Πίεση παρεχόμενου οξυγόνου',
+          name: 'Πίεση οξυγόνου στις αρτηρίες',
           data: this.information.PaO2
         },
         {
-          type: 'line',
           name: 'Ποσοστό παρεχόμενου οξυγόνου',
           data: this.information.FiO2
         },
         {
-          type: 'line',
           name: 'Αιμοπετάλια',
           data: this.information.PLT
         },
         {
-          type: 'line',
           name: 'Κρεατινίνη',
           data: this.information.CR
         },
         {
-          type: 'line',
           name: 'Χολυρεθρίνη',
           data: this.information.BIL
+        },
+        {
+          name: 'Μέση αρτηριακή πίεση',
+          data: this.information.MAP
         }
       ]
       // Make sure to update the whole options config and not just a single property to allow the Vue watch catch the change.
@@ -118,7 +98,7 @@ export default {
         //colors: [colors[Math.floor(Math.random()*colors.length)]],
         series: this.series,
         xaxis: {
-          type: 'datetime',
+          type: 'category',
           categories: this.information.dates,
         },
         tooltip: {
@@ -139,12 +119,7 @@ export default {
             }
           }
         }],
-        /*plotOptions: {
-          bar: {
-            horizontal: false,
-            borderRadius: 10
-          },
-        },*/
+        colors: colors,
         legend: {
           position: 'right',
           offsetY: 40
